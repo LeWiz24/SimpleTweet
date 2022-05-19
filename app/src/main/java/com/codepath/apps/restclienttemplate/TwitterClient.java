@@ -23,7 +23,7 @@ import com.github.scribejava.core.builder.api.BaseApi;
  */
 public class TwitterClient extends OAuthBaseClient {
 	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance();
-	public static final String REST_URL = "https://api.twitter.com/1.1.";
+	public static final String REST_URL = "https://api.twitter.com/1.1";
 	public static final String REST_CONSUMER_KEY = BuildConfig.CONSUMER_KEY;
 	public static final String REST_CONSUMER_SECRET = BuildConfig.CONSUMER_SECRET;
 
@@ -44,13 +44,15 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 	// CHANGE THIS
 	// DEFINE METHODS for different API endpoints here
-	public void getInterestingnessList(JsonHttpResponseHandler handler) {
-		String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
+	public void getHomeTimeline(JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
-		params.put("format", "json");
+		params.put("count", 25);
+		params.put("since_id", 1);
 		client.get(apiUrl, params, handler);
 	}
+
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
 	 * 	  i.e getApiUrl("statuses/home_timeline.json");
