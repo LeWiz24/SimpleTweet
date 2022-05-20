@@ -73,7 +73,7 @@ public class TimelineActivity extends AppCompatActivity {
             // Compose icon has been selected
             // Navigate to compose activity
             Intent i = new Intent(this, ComposeActivity.class);
-            startActivityForResult(i, RESULT_OK);
+            startActivityForResult(i, REQUEST_CODE);
             return true;
         }
                 return super.onOptionsItemSelected(item);
