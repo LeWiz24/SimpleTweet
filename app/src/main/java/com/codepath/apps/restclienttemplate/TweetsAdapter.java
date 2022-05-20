@@ -49,13 +49,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         holder.bind(tweet);
 
     }
-    //
+    public void clear() {
+        tweets.clear();
+        notifyDataSetChanged();
+    }
+    public void addAll(List<Tweet> tweets){
+        this.tweets.addAll(tweets);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return tweets.size();
     }
-
-
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView ivProfileImage;

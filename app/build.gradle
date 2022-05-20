@@ -59,5 +59,7 @@ dependencies {
 
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
+    // Swipe to refresh dependency
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
 }
