@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
     <ImageView
@@ -33,5 +33,5 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:text="I can't belive I didn't start usign Twitter until I was old enough. I guess you have to find a set of news you want to keep up with. For me, that is imports." />
+        android:text="I can't belive I didn't start using Twitter until I was old enough. I guess you have to find a set of news you want to keep up with. For me, that is imports." />
 </RelativeLayout>

@@ -10,8 +10,6 @@
     android:layout_height="wrap_content"
     app:counterEnabled="true"
     app:counterMaxLength="280" >
-
-
         <EditText
             android:id="@+id/etCompose"
             android:layout_width="match_parent"

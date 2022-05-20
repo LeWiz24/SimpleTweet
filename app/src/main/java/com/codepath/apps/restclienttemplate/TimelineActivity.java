@@ -11,22 +11,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
 
-import com.bumptech.glide.request.RequestCoordinator;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.github.scribejava.apis.TwitterApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Headers;
-import okhttp3.Request;
 
 public class TimelineActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
@@ -53,10 +54,8 @@ public class TimelineActivity extends AppCompatActivity {
                 fetchTimelineAsync(0);
                 // Notify adapter dataset changed
                 adapter.notifyDataSetChanged();
-
             }
         });
-
         client = TwitterApp.getRestClient(this);
         // Find the recyclerview
         rvTweets = findViewById(R.id.rvTweets);
@@ -70,7 +69,6 @@ public class TimelineActivity extends AppCompatActivity {
         populateHomeTimeline();
 
     }
-
 
     private void fetchTimelineAsync(int i) {
         // Send the network request to fetch the updated data
@@ -107,6 +105,9 @@ public class TimelineActivity extends AppCompatActivity {
             Intent i = new Intent(this, ComposeActivity.class);
             startActivityForResult(i, REQUEST_CODE);
             return true;
+        }
+        if (item.getItemId() == R.id.btnLogout){
+            logout();
         }
                 return super.onOptionsItemSelected(item);
     }
@@ -150,5 +151,53 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG,"onFailure! " + response, throwable);
             }
         });
+    }
+
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+
+    public static String getRelativeTimeAgo(String rawJsonDate) {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        try {
+            long time = sf.parse(rawJsonDate).getTime();
+            long now = System.currentTimeMillis();
+
+            final long diff = now - time;
+            if (diff < MINUTE_MILLIS) {
+                return "just now";
+            } else if (diff < 2 * MINUTE_MILLIS) {
+                return "a minute ago";
+            } else if (diff < 50 * MINUTE_MILLIS) {
+                return diff / MINUTE_MILLIS + "m";
+            } else if (diff < 90 * MINUTE_MILLIS) {
+                return "an hour ago";
+            } else if (diff < 24 * HOUR_MILLIS) {
+                return diff / HOUR_MILLIS + "h";
+            } else if (diff < 48 * HOUR_MILLIS) {
+                return "yesterday";
+            } else {
+                return diff / DAY_MILLIS + "d";
+            }
+        } catch (ParseException e) {
+            Log.i(TAG, "getRelativeTimeAgo failed");
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+    // Logout button implementation
+    void logout(){
+        // Forget who is logged in
+        TwitterApp.getRestClient(this).clearAccessToken();
+        // Navigate back to login screen
+        Intent logout = new Intent(this, LoginActivity.class);
+        logout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // This makes sure the back button wont work
+        logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Same as above
+        startActivity(logout);
     }
 }
