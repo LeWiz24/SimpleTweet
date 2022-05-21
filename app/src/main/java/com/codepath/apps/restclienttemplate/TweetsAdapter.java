@@ -67,6 +67,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivProfileImage;
         TextView tvScreenName;
         TextView tvBody;
+        TextView tvTimeStamp;
+        TextView tvDot;
+        ImageView ivUrl;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -74,6 +77,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvBody = itemView.findViewById(R.id.tvBody);
+            ivUrl = itemView.findViewById(R.id.ivUrl);
+            // tvTimeStamp = itemView.findViewById(R.id.tvTimestamp);
+            // tvDot = itemView.findViewById(R.id.tvDot);
         }
 
         public void bind(Tweet tweet) {
@@ -83,8 +89,17 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     .load(tweet.user.profileImageUrl)
                     .transform(new RoundedCorners(43))
                     .into(ivProfileImage);
-
-
+            if (tweet.mediaUrl != "") {
+                ivUrl.setVisibility(View.VISIBLE);
+                Glide.with(context)
+                        .load(tweet.mediaUrl)
+                        .fitCenter()
+                        .override(640, 360)
+                        .transform(new RoundedCorners(25))
+                        .into(ivUrl);
+            } else {
+                ivUrl.setVisibility(View.GONE);
+            }
 
         }
     }
