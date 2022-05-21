@@ -23,7 +23,21 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
+        android:textColor="#0E0E0E"
+        tools:text="Mario" />
+
+    <TextView
+        android:id="@+id/tvHandle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/tvScreenName"
+        android:textColor="#7B8181"
+        android:textSize="14sp"
         tools:text="marioo942" />
+
 
     <TextView
         android:id="@+id/tvBody"
@@ -33,7 +47,27 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:text="have to find a set of news you want to keep up with. For me, that is imports." />
+        android:text="have to find a set of news you want to keep up with. For me, that is imports."
+        android:textColor="#0C0C0C" />
+
+    <TextView
+        android:id="@+id/tvDot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/tvHandle"
+        android:text="•" />
+
+    <TextView
+        android:id="@+id/tvCreatedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/tvDot"
+        tools:text="40m" />
 
     <ImageView
         android:id="@+id/ivUrl"

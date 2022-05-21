@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate.models;
 
+import android.text.format.DateUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -57,7 +58,7 @@ public class Tweet {
 
         return tweets;
     }
-    public static String getRelativeTimeAgo(String rawJsonDate) {
+    public String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
         sf.setLenient(true);
@@ -65,23 +66,22 @@ public class Tweet {
         try {
             long time = sf.parse(rawJsonDate).getTime();
             long now = System.currentTimeMillis();
-            Log.i("ello", String.valueOf(now));
 
             final long diff = now - time;
             if (diff < MINUTE_MILLIS) {
-                return "just now";
+                return "Just now";
             } else if (diff < 2 * MINUTE_MILLIS) {
-                return "a minute ago";
+                return "Minute ago";
             } else if (diff < 50 * MINUTE_MILLIS) {
-                return diff / MINUTE_MILLIS + "m";
+                return diff / MINUTE_MILLIS + " m";
             } else if (diff < 90 * MINUTE_MILLIS) {
-                return "an hour ago";
+                return "An hour ago";
             } else if (diff < 24 * HOUR_MILLIS) {
-                return diff / HOUR_MILLIS + "h";
+                return diff / HOUR_MILLIS + " h";
             } else if (diff < 48 * HOUR_MILLIS) {
-                return "yesterday";
+                return "Yesterday";
             } else {
-                return diff / DAY_MILLIS + "d";
+                return diff / DAY_MILLIS + " d";
             }
         } catch (ParseException e) {
             Log.i("Tweet", "getRelativeTimeAgo failed");

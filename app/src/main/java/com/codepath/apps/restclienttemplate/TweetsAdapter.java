@@ -32,7 +32,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         this.context = context;
         this.tweets = tweets;
     }
-
     // Inflates the layout
     @NonNull
     @Override
@@ -66,8 +65,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         ImageView ivProfileImage;
         TextView tvScreenName;
+        TextView tvHandle;
         TextView tvBody;
-        TextView tvTimeStamp;
+        TextView tvCreatedAt;
         TextView tvDot;
         ImageView ivUrl;
 
@@ -78,6 +78,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvBody = itemView.findViewById(R.id.tvBody);
             ivUrl = itemView.findViewById(R.id.ivUrl);
+            tvHandle = itemView.findViewById(R.id.tvHandle);
+            tvCreatedAt = itemView.findViewById(R.id.tvCreatedAt);
             // tvTimeStamp = itemView.findViewById(R.id.tvTimestamp);
             // tvDot = itemView.findViewById(R.id.tvDot);
         }
@@ -85,9 +87,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
             tvScreenName.setText(tweet.user.screenName);
+            tvHandle.setText("@" + tweet.user.name);
+            tvCreatedAt.setText(tweet.getRelativeTimeAgo(tweet.createdAt));
             Glide.with(context)
                     .load(tweet.user.profileImageUrl)
-                    .transform(new RoundedCorners(43))
+                    .transform(new RoundedCorners(75))
                     .into(ivProfileImage);
             if (tweet.mediaUrl != "") {
                 ivUrl.setVisibility(View.VISIBLE);
@@ -95,12 +99,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         .load(tweet.mediaUrl)
                         .fitCenter()
                         .override(640, 360)
-                        .transform(new RoundedCorners(25))
+                        .transform(new RoundedCorners(20))
                         .into(ivUrl);
             } else {
                 ivUrl.setVisibility(View.GONE);
-            }
 
+            }
         }
     }
 }
