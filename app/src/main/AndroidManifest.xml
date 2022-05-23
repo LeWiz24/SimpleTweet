@@ -14,9 +14,12 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ComposeActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            android:name=".DetailViewActivity"
             android:exported="false" />
+        <activity
+            android:name=".ComposeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".TimelineActivity"
             android:exported="false" />

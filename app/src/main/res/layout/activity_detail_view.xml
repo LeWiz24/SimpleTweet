@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailViewActivity">
+
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="24dp"
+        tools:srcCompat="@tools:sample/avatars" />
+    <TextView
+        android:id="@+id/tvHandle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUsername"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/ivProfile"
+        android:textColor="#808080"
+        android:textSize="14sp"
+        tools:text="\@example" />
+
+    <TextView
+        android:id="@+id/tvUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/ivProfile"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="exampleUser" />
+
+    <TextView
+        android:id="@+id/tvBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivProfile"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textSize="24sp"
+        tools:text="This is an example body of a tweet!" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        tools:text="06/07/21" />
+    <TextView
+        android:id="@+id/tvLikesCount"
+        android:layout_below="@+id/tvDate"
+        android:layout_alignStart="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tvRetweetCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDate"
+        android:layout_marginStart="75dp"/>
+
+</RelativeLayout>

@@ -24,6 +24,8 @@ public class Tweet {
     public int favorites;
     public boolean favoriteTweet;
     public int likesCount;
+    public int retweetCount;
+    public int replyCount;
 
 
     private static final int SECOND_MILLIS = 1000;
@@ -40,7 +42,8 @@ public class Tweet {
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.favoriteTweet = jsonObject.getBoolean("favorited");
-        tweet.likesCount = jsonObject.getInt(("favorite_count"));
+        tweet.likesCount = jsonObject.getInt("favorite_count");
+        tweet.retweetCount = jsonObject.getInt("retweet_count");
 
         if(!jsonObject.isNull("extended_entities")){
             JSONObject extendedEntitites = jsonObject.getJSONObject("extended_entities");
