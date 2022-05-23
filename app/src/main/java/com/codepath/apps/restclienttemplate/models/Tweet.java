@@ -21,6 +21,10 @@ public class Tweet {
     public String createdAt;
     public User user;
     public String mediaUrl;
+    public int favorites;
+    public boolean favoriteTweet;
+    public int likesCount;
+
 
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
@@ -35,6 +39,8 @@ public class Tweet {
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.favoriteTweet = jsonObject.getBoolean("favorited");
+        tweet.likesCount = jsonObject.getInt(("favorite_count"));
 
         if(!jsonObject.isNull("extended_entities")){
             JSONObject extendedEntitites = jsonObject.getJSONObject("extended_entities");
@@ -45,11 +51,8 @@ public class Tweet {
         else{
             tweet.mediaUrl = "";
         }
-
         return tweet;
     }
-
-
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {

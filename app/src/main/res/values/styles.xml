@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--
@@ -11,6 +11,14 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="colorPrimary">@color/twitter_blue</item>
+        <item name="colorPrimaryVariant">@color/twitter_blue</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Navigation bar color. -->
+        <item name="android:navigationBarColor">#fff</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">#ddd</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 
 </resources>

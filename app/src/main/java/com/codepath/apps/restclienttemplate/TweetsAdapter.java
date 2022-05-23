@@ -1,17 +1,21 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import java.util.List;
@@ -32,6 +36,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         this.context = context;
         this.tweets = tweets;
     }
+
     // Inflates the layout
     @NonNull
     @Override
@@ -39,6 +44,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         View view = LayoutInflater.from(context).inflate(R.layout.item_tweet, parent, false);
         return new ViewHolder(view);
     }
+
     // Binds data based on position
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -46,13 +52,20 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         Tweet tweet = tweets.get(position);
         // Bind the tweet to viewholder
         holder.bind(tweet);
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo: Add detailed navigation
+            }
+        });
     }
+
     public void clear() {
         tweets.clear();
         notifyDataSetChanged();
     }
-    public void addAll(List<Tweet> tweets){
+
+    public void addAll(List<Tweet> tweets) {
         this.tweets.addAll(tweets);
         notifyDataSetChanged();
     }
@@ -61,15 +74,18 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     public int getItemCount() {
         return tweets.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivProfileImage;
         TextView tvScreenName;
         TextView tvHandle;
         TextView tvBody;
         TextView tvCreatedAt;
-        TextView tvDot;
         ImageView ivUrl;
+        ImageButton ibLikes;
+        TextView likesCount;
+        boolean favorited = false;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -80,8 +96,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivUrl = itemView.findViewById(R.id.ivUrl);
             tvHandle = itemView.findViewById(R.id.tvHandle);
             tvCreatedAt = itemView.findViewById(R.id.tvCreatedAt);
-            // tvTimeStamp = itemView.findViewById(R.id.tvTimestamp);
-            // tvDot = itemView.findViewById(R.id.tvDot);
+            ibLikes = itemView.findViewById(R.id.ibLikes);
+            likesCount = itemView.findViewById(R.id.likesCount);
         }
 
         public void bind(Tweet tweet) {
@@ -93,18 +109,36 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     .load(tweet.user.profileImageUrl)
                     .transform(new RoundedCorners(75))
                     .into(ivProfileImage);
-            if (tweet.mediaUrl != "") {
+            if (!tweet.mediaUrl.equals("")) {
                 ivUrl.setVisibility(View.VISIBLE);
                 Glide.with(context)
                         .load(tweet.mediaUrl)
-                        .fitCenter()
-                        .override(640, 360)
+                        .centerCrop()
                         .transform(new RoundedCorners(20))
                         .into(ivUrl);
             } else {
                 ivUrl.setVisibility(View.GONE);
-
             }
+
+            if (tweet.likesCount != 0) {
+                likesCount.setVisibility(View.VISIBLE);
+                likesCount.setText(String.valueOf(tweet.likesCount));
+            }
+
+            //if (tweet.favoriteTweet == true) {
+            ibLikes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (favorited) {
+                        ibLikes.setImageResource(R.drawable.ic_vector_heart);
+                        favorited = true;
+                    } else {
+                        ibLikes.setImageResource(R.drawable.ic_vector_heart_stroke);
+                        favorited = false;
+                    }
+                }
+            });
+
         }
     }
 }
