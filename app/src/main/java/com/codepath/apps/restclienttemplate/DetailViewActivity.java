@@ -71,7 +71,7 @@ public class DetailViewActivity extends AppCompatActivity {
         }
         if (tweet.retweetCount != 0) {
             tvRetweetCount.setVisibility(View.VISIBLE);
-            tvRetweetCount.setText(String.valueOf(tweet.likesCount) + " Retweets");
+            tvRetweetCount.setText(String.valueOf(tweet.retweetCount) + " Retweets");
         }
 
 
