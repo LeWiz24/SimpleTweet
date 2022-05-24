@@ -131,10 +131,11 @@
             android:id="@+id/tvLikesCount"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="#000"
             android:layout_marginStart="10dp"
-            android:visibility="gone"/>
+            android:layout_marginEnd="80dp"
+            android:gravity="center"
+            tools:text="7"
+            android:textColor="#000"/>
     </LinearLayout>
 
 

@@ -17,6 +17,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import es.dmoral.toasty.Toasty;
 import okhttp3.Headers;
 
 public class ComposeActivity extends AppCompatActivity {
@@ -42,11 +43,11 @@ public class ComposeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String tweetContent = binding.etCompose.getText().toString();
                 if (tweetContent.isEmpty()) {
-                    Toast.makeText(ComposeActivity.this,"Sorry, your tweet cannot be empty.", Toast.LENGTH_LONG).show();
+                    Toasty.error(ComposeActivity.this,"Sorry, your tweet cannot be empty.", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (tweetContent.length() > MAX_TWEET_LENGTH) {
-                    Toast.makeText(ComposeActivity.this, "Sorry, your tweet is too long", Toast.LENGTH_LONG).show();
+                    Toasty.error(ComposeActivity.this, "Sorry, your tweet is too long", Toast.LENGTH_LONG).show();
                     return;
                 }
                 //Toast.makeText(ComposeActivity.this, tweetContent, Toast.LENGTH_LONG).show();
@@ -55,6 +56,7 @@ public class ComposeActivity extends AppCompatActivity {
                 client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
+                        Toasty.success(ComposeActivity.this, "Success!", Toast.LENGTH_SHORT, true).show();
                         Log.i(TAG, "onSuccess to publish Tweet");
                         try {
                             Tweet tweet = Tweet.fromJson(json.jsonObject);

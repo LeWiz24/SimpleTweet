@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.parceler.Parcels;
 
@@ -34,6 +35,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     // Pass in context and list of tweets
     Context context;
     List<Tweet> tweets;
+
 
     public TweetsAdapter(Context context, List<Tweet> tweets) {
         this.context = context;
@@ -95,7 +97,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView likesCount;
         TextView retweetCount;
         TextView replyCount;
-        boolean favorited = false;
 
 
         public ViewHolder(@NonNull View itemView) {

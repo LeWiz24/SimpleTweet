@@ -65,5 +65,7 @@ dependencies {
     annotationProcessor 'org.parceler:parceler:1.1.12'
     // Swipe to refresh dependency
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    // Toast dependency
+    implementation 'com.github.GrenderG:Toasty:1.5.2'
 
 }

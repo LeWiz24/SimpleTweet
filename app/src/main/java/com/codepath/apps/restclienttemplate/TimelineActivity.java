@@ -103,7 +103,6 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
     // Create onCreateOptionsMenu to compose Tweets
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -171,4 +170,5 @@ public class TimelineActivity extends AppCompatActivity {
         logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Same as above
         startActivity(logout);
     }
+
 }

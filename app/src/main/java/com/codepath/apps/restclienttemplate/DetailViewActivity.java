@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -32,8 +33,6 @@ public class DetailViewActivity extends AppCompatActivity {
     TextView tvLikesCount;
     TextView tvRetweetCount;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,39 +51,35 @@ public class DetailViewActivity extends AppCompatActivity {
 
         tweet = Parcels.unwrap(getIntent().getParcelableExtra("Tweet"));
         loadTweet();
-
     }
+        private void loadTweet() {
+            tvUsername.setText(tweet.user.screenName);
+            tvHandle.setText("@" + tweet.user.name);
+            Glide.with(this)
+                    .load(tweet.user.profileImageUrl)
+                    .circleCrop()
+                    .into(ivProfile);
 
-    private void loadTweet() {
-        tvUsername.setText(tweet.user.screenName);
-        tvHandle.setText("@" + tweet.user.name);
-        Glide.with(this)
-                .load(tweet.user.profileImageUrl)
-                .circleCrop()
-                .into(ivProfile);
+            tvBody.setText(tweet.body);
+            tvDate.setText(formattedDate(tweet.createdAt));
+            if (tweet.likesCount != 0) {
+                tvLikesCount.setVisibility(View.VISIBLE);
+                tvLikesCount.setText(String.valueOf(tweet.likesCount) + " Likes");
+            }
+            if (tweet.retweetCount != 0) {
+                tvRetweetCount.setVisibility(View.VISIBLE);
+                tvRetweetCount.setText(String.valueOf(tweet.retweetCount) + " Retweets");
+            }
 
-        tvBody.setText(tweet.body);
-        tvDate.setText(formattedDate(tweet.createdAt));
-        if (tweet.likesCount != 0) {
-            tvLikesCount.setVisibility(View.VISIBLE);
-            tvLikesCount.setText(String.valueOf(tweet.likesCount) + " Likes");
+
         }
-        if (tweet.retweetCount != 0) {
-            tvRetweetCount.setVisibility(View.VISIBLE);
-            tvRetweetCount.setText(String.valueOf(tweet.retweetCount) + " Retweets");
+        private String formattedDate (String rawDate){
+            StringBuilder result = new StringBuilder();
+            SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
+            Date date = new Date(rawDate);
+            result.append(formatter.format(date));
+            formatter = new SimpleDateFormat("MM/dd/yyyy");
+            result.append(" - " + formatter.format(date));
+            return result.toString();
         }
-
-
-
-
     }
-    private String formattedDate(String rawDate){
-        StringBuilder result = new StringBuilder();
-        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a");
-        Date date = new Date(rawDate);
-        result.append(formatter.format(date));
-        formatter = new SimpleDateFormat("MM/dd/yyyy");
-        result.append(" - " + formatter.format(date));
-        return result.toString();
-    }
-}
