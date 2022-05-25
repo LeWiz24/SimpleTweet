@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
+import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     // Pass in context and list of tweets
     Context context;
     List<Tweet> tweets;
+    TwitterClient client;
 
 
     public TweetsAdapter(Context context, List<Tweet> tweets) {
@@ -93,10 +95,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvCreatedAt;
         ImageView ivUrl;
+        ImageButton ibReply;
+        ImageButton ibRetweet;
         ImageButton ibLikes;
         TextView likesCount;
         TextView retweetCount;
         TextView replyCount;
+        Boolean favoriteStatus;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -108,10 +113,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivUrl = itemView.findViewById(R.id.ivUrl);
             tvHandle = itemView.findViewById(R.id.tvHandle);
             tvCreatedAt = itemView.findViewById(R.id.tvCreatedAt);
-            ibLikes = itemView.findViewById(R.id.ibLikes);
             likesCount = itemView.findViewById(R.id.tvLikesCount);
             retweetCount = itemView.findViewById(R.id.tvRetweetCount);
             replyCount = itemView.findViewById(R.id.tvRepliesCount);
+            ibLikes = itemView.findViewById(R.id.ibLikes);
+            ibReply = itemView.findViewById(R.id.ibReply);
+            ibRetweet = itemView.findViewById(R.id.ibRetweet);
+
 
         }
 
@@ -140,10 +148,42 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 likesCount.setVisibility(View.VISIBLE);
                 likesCount.setText(String.valueOf(tweet.likesCount));
             }
+            else {
+                likesCount.setText("0");
+            }
             if (tweet.retweetCount !=0 ) {
                 retweetCount.setVisibility(View.VISIBLE);
                 retweetCount.setText(String.valueOf(tweet.retweetCount));
             }
+            else {
+                retweetCount.setText("0");
+            }
+
+            // Add reply feature to button
+            ibReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //What happens when I click? Compose pops up
+                    Intent i = new Intent(context, ComposeActivity.class);
+                    i.putExtra("Tweet", Parcels.wrap(tweet));
+                    context.startActivity(i);
+
+                }
+            });
+//            ibLikes.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    client.favoriteTweet();
+//
+//                    if(tweet.favoriteTweet == true){
+//                        ibLikes.setImageResource(R.drawable.ic_vector_heart);
+//                        ibLikes.getDrawable().setTint(Color.RED);}
+//                    // If button clicked favorite_tweet status = True, fav tweet
+//                    // If button clickeded again, favorite status = false, unfav tweet
+//                }
+//            });
+
+
 
 
 //            //if (tweet.favoriteTweet == true) {

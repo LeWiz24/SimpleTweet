@@ -26,6 +26,7 @@ public class ComposeActivity extends AppCompatActivity {
     public static final String TAG = "ComposeActivity";
 
     TwitterClient client;
+    Tweet tweet;
 
     private ActivityComposeBinding binding;
 

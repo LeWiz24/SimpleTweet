@@ -70,10 +70,21 @@ public class TwitterClient extends OAuthBaseClient {
 
 
 	}
+
 	public void unFavoriteTweet(long id, JsonHttpResponseHandler handler){
 		String apiUrl = getApiUrl("favorites/destroy.json");
 		RequestParams params = new RequestParams();
 		params.put("id", id);
+		client.post(apiUrl, params, "", handler);
+	}
+
+	// ReplyTo method allows us to respond to particular posts
+	public void replyTo(long id, JsonHttpResponseHandler handler, String tweetBody){
+		String apiUrl = getApiUrl("statuses/update.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("status", tweetBody);
+		params.put("in_reply_to_status_id", id);
 		client.post(apiUrl, params, "", handler);
 	}
 }

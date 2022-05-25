@@ -32,6 +32,9 @@ public class DetailViewActivity extends AppCompatActivity {
     TextView tvDate;
     TextView tvLikesCount;
     TextView tvRetweetCount;
+    ImageButton ibReply;
+    ImageButton ibRetweet;
+    ImageButton ibLikes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class DetailViewActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.tvDate);
         tvLikesCount = findViewById(R.id.tvLikesCount);
         tvRetweetCount = findViewById(R.id.tvRetweetCount);
+
 
         tweet = Parcels.unwrap(getIntent().getParcelableExtra("Tweet"));
         loadTweet();
@@ -70,6 +74,7 @@ public class DetailViewActivity extends AppCompatActivity {
                 tvRetweetCount.setVisibility(View.VISIBLE);
                 tvRetweetCount.setText(String.valueOf(tweet.retweetCount) + " Retweets");
             }
+
 
 
         }
