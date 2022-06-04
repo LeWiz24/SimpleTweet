@@ -67,8 +67,6 @@ public class TwitterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("id", id);
 		client.post(apiUrl, params, "", handler);
-
-
 	}
 
 	public void unFavoriteTweet(long id, JsonHttpResponseHandler handler){
@@ -86,5 +84,16 @@ public class TwitterClient extends OAuthBaseClient {
 		params.put("status", tweetBody);
 		params.put("in_reply_to_status_id", id);
 		client.post(apiUrl, params, "", handler);
+	}
+
+
+	// Get next page of tweets
+	public void getNextPageOfTweets(JsonHttpResponseHandler handler, long maxId) {
+		String apiUrl = getApiUrl("statuses/home_timeline.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("count", 25);
+		params.put("max_id", maxId);
+		client.get(apiUrl, params, handler);
 	}
 }

@@ -44,6 +44,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     List<Tweet> tweets;
     TweetsAdapter adapter;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     private ActivityTimelineBinding binding;
 
@@ -53,6 +54,10 @@ public class TimelineActivity extends AppCompatActivity {
 
         binding = ActivityTimelineBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Initialize list of tweets and adapter
+        tweets = new ArrayList<>();
+        adapter = new TweetsAdapter(this, tweets);
 
         // Lookup the swipe container view
         swipeContainer = binding.swipeContainer;
@@ -68,14 +73,21 @@ public class TimelineActivity extends AppCompatActivity {
         // Find the recyclerview
         rvTweets = binding.rvTweets;
 
-        // Initialize list of tweets and adapter
-        tweets = new ArrayList<>();
-        adapter = new TweetsAdapter(this, tweets);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.d(TAG, "OnLoadMore:");
+                loadMoreData();
+            }
+        };
+
         // Configure the recyclerview
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(adapter);
+        rvTweets.addOnScrollListener(scrollListener);
         populateHomeTimeline();
-
+        
         binding.compose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +96,56 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void loadMoreData() {
+        // 1. Send an API request to retrieve appropriate paginated data
+        client.getNextPageOfTweets(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess for loadMoreData! " + json.toString());
+                // 2. Deserialize and construct new model objects from the API response
+                JSONArray jsonArray = json.jsonArray;
+                try {
+                    List<Tweet> tweets = Tweet.fromJsonArray(jsonArray);
+                    // 3. Append the new data objects to the existing set of items inside the array of items
+                    // 4. Notify the adapter of the new items made with `notifyItemRangeInserted()`
+                    adapter.addAll(tweets);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure for loadMoreData! ", throwable);
+            }
+        }, tweets.get(tweets.size() - 1).id);
+    }
+
+    private void loadNextDataFromApi(int page) {
+        // Send an API request to retrieve appropriate paginated data
+        client.getNextPageOfTweets(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                //  --> Deserialize and construct new model objects from the API response
+                JSONArray jsonArray = json.jsonArray;
+                Log.i("Hello", "We succeeded!");
+                try{
+                    //TimelineActivity.showProgressBar();
+                    List<Tweet> tweets = Tweet.fromJsonArray(jsonArray);
+                    adapter.addAll(tweets);
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+                //TimelineActivity.hideProgressBar();
+            }
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure: " + throwable.getMessage());
+            }
+        }, tweets.get(tweets.size() - 1).id);
+    }
+
 
     private void fetchTimelineAsync(int i) {
         // Send the network request to fetch the updated data
