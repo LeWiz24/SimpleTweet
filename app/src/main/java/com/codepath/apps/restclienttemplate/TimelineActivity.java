@@ -37,6 +37,7 @@ public class TimelineActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
     public static final String TAG = "TimelineActivity";
     private final int REQUEST_CODE = 20;
+    private int page = 1;
     // Instance of TwitterClient class
     TwitterClient client;
     // Instance of RV class
@@ -44,7 +45,6 @@ public class TimelineActivity extends AppCompatActivity {
 
     List<Tweet> tweets;
     TweetsAdapter adapter;
-    private EndlessRecyclerViewScrollListener scrollListener;
 
     private ActivityTimelineBinding binding;
 
@@ -74,16 +74,16 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets = binding.rvTweets;
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.d(TAG, "OnLoadMore:");
-                loadMoreData();
+                Log.d("Helo", "OnLoadMore:");
+                loadNextDataFromApi(page);
             }
         };
 
         // Configure the recyclerview
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        rvTweets.setLayoutManager(layoutManager);
         rvTweets.setAdapter(adapter);
         rvTweets.addOnScrollListener(scrollListener);
         populateHomeTimeline();
@@ -97,31 +97,6 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    private void loadMoreData() {
-        // 1. Send an API request to retrieve appropriate paginated data
-        client.getNextPageOfTweets(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "onSuccess for loadMoreData! " + json.toString());
-                // 2. Deserialize and construct new model objects from the API response
-                JSONArray jsonArray = json.jsonArray;
-                try {
-                    List<Tweet> tweets = Tweet.fromJsonArray(jsonArray);
-                    // 3. Append the new data objects to the existing set of items inside the array of items
-                    // 4. Notify the adapter of the new items made with `notifyItemRangeInserted()`
-                    adapter.addAll(tweets);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "onFailure for loadMoreData! ", throwable);
-            }
-        }, tweets.get(tweets.size() - 1).id);
-    }
-
     private void loadNextDataFromApi(int page) {
         // Send an API request to retrieve appropriate paginated data
         client.getNextPageOfTweets(new JsonHttpResponseHandler() {
@@ -129,7 +104,6 @@ public class TimelineActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 //  --> Deserialize and construct new model objects from the API response
                 JSONArray jsonArray = json.jsonArray;
-                Log.i("Hello", "We succeeded!");
                 try{
                     //TimelineActivity.showProgressBar();
                     List<Tweet> tweets = Tweet.fromJsonArray(jsonArray);
