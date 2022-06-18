@@ -36,7 +36,7 @@
         android:layout_toEndOf="@+id/tvScreenName"
         android:textColor="#7B8181"
         android:textSize="14sp"
-        tools:text="marioo942" />
+        tools:text="marioo94" />
 
 
     <TextView
